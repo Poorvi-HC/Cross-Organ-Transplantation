@@ -1,0 +1,15 @@
+Number of genes (nodes): 1329
+Number of connections (edges): 26638
+Mean intensity threshold: 3.0
+Variance threshold (75th percentile): 0.1320525285519633
+Minimum correlation threshold: 0.65
+FDR threshold: 0.01
+Correlation percentile threshold: 93
+Final correlation threshold: 0.842852414514618
+
+Network Metrics:
+Network is not connected
+Number of connected components: 43
+Size of largest connected component: 607 nodes
+Average clustering coefficient: 0.5507740056687372
+Network density: 0.03018620758428749
