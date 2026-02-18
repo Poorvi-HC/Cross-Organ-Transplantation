@@ -7,8 +7,8 @@ from network import build_coexpression_network
 from leiden import run_leiden_clustering, visualize_modules
 import argparse
 
+
 def read_meta(meta_file):
-    """Read metadata file"""
     try:
         if meta_file.endswith('.xlsx'):
             df = pd.read_excel(meta_file, index_col=0)
@@ -19,16 +19,16 @@ def read_meta(meta_file):
         print(f"Error reading metadata file: {str(e)}")
         return None
 
+
 def load_existing_network(tissue, network_dir):
     network_dir_tissue = f"{network_dir}/network_meta_{tissue}"
     network_graphml = f"{network_dir_tissue}/network.graphml"
     network_pkl = f"{network_dir_tissue}/network.pkl"
     expr_file = f"{network_dir_tissue}/filtered_expression_data.csv"
-    
+
     G = None
     expr_filtered = None
-    
-    # Try loading network from GraphML first
+
     if os.path.exists(network_graphml):
         try:
             print(f"Loading network from GraphML: {network_graphml}")
@@ -36,9 +36,7 @@ def load_existing_network(tissue, network_dir):
             print(f"  ✓ Loaded {tissue} network with {len(G.nodes())} nodes and {len(G.edges())} edges")
         except Exception as e:
             print(f"  ✗ Error loading GraphML: {str(e)}")
-            G = None
-    
-    # Try loading from pickle if GraphML failed or doesn't exist
+
     if G is None and os.path.exists(network_pkl):
         try:
             print(f"Loading network from pickle: {network_pkl}")
@@ -47,9 +45,7 @@ def load_existing_network(tissue, network_dir):
             print(f"  ✓ Loaded {tissue} network with {len(G.nodes())} nodes and {len(G.edges())} edges")
         except Exception as e:
             print(f"  ✗ Error loading pickle: {str(e)}")
-            G = None
-    
-    # Load filtered expression data
+
     if os.path.exists(expr_file):
         try:
             print(f"Loading filtered expression data: {expr_file}")
@@ -57,146 +53,128 @@ def load_existing_network(tissue, network_dir):
             print(f"  ✓ Loaded expression data: {expr_filtered.shape[0]} samples, {expr_filtered.shape[1]} genes")
         except Exception as e:
             print(f"  ✗ Error loading expression data: {str(e)}")
-            expr_filtered = None
-            
+
     return G, expr_filtered
 
+
 def main():
-    # Parse command line arguments
     parser = argparse.ArgumentParser(description='Build or load co-expression networks and run module detection')
-    parser.add_argument('--load', action='store_true', help='Load existing networks instead of building new ones')
-    parser.add_argument('--tissues', nargs='+', default=['liver', 'kidney', 'heart'], 
-                        help='List of tissues to process (default: liver kidney heart)')
-    parser.add_argument('--network_dir', type=str, default='networks', help='Directory to store networks')  
-    parser.add_argument('--module_dir', type=str, default='modules', help='Directory to store modules under each organ directory')
+    parser.add_argument('--load', action='store_true', help='Load existing networks and clusters')
+    parser.add_argument('--tissues', nargs='+', default=['liver', 'kidney', 'heart'])
+    parser.add_argument('--network_dir', type=str, default='networks')
+    parser.add_argument('--module_dir', type=str, default='modules')
     args = parser.parse_args()
-    
-    # Tissue-specific data files
+
     expression_files = {
         "liver": "../../data/GSE145780_liver.csv",
         "kidney": "../../data/GSE192444_kidney.csv",
         "heart": "../../data/GSE272655_heart.csv"
     }
-    
-    # Metadata files - update paths as needed
+
     meta_files = {
         "liver": "../../data/liver_meta.xlsx",
         "kidney": "../../data/kidney_meta.xlsx",
         "heart": "../../data/heart_meta.xlsx"
     }
-    
-    # Ensure all requested tissues have valid file paths
+
     tissues = [t for t in args.tissues if t in expression_files]
     if not tissues:
         print("Error: No valid tissues specified")
         return
-    
-    # Populate the variables given in the parser
-    network_dir = args.network_dir
-    module_dir = args.module_dir
 
-    # Consistent hyperparameters for all tissues to ensure fair comparative analysis
-    common_params = {
-        "intensity_threshold": 3.0,              # Filter out lowly expressed genes
-        "variance_threshold_percentile": 75,     # Keep top 25% most variable genes
-        "correlation_threshold_percentile": 93,  # Keep top 2% strongest correlations
-        "fdr_threshold": 0.01,                   # Strict FDR control
-        "leiden_resolution": 0.2                 # Balanced module size
-    }
-    
-    # Use the same parameters for all tissues
-    hyperparams = {tissue: common_params for tissue in tissues}
-    
-    # Create networks directory if it doesn't exist
-    os.makedirs('../../results', exist_ok=True)
-    network_dir = f"../../results/{network_dir}"
+    network_dir = f"../../results/{args.network_dir}"
     os.makedirs(network_dir, exist_ok=True)
-    
-    # Build or load networks for each tissue
+
+    common_params = {
+        "intensity_threshold": 3.0,
+        "variance_threshold_percentile": 75,
+        "fdr_threshold": 0.01,
+        "leiden_resolution": 0.2
+    }
+
     networks = {}
     filtered_expr = {}
-    
-    for i, tissue in enumerate(tissues, 1):
+    clusters = {}
+
+    for tissue in tissues:
+
         print(f"\n{'='*50}")
         print(f"Processing {tissue.upper()}")
         print(f"{'='*50}")
-        
-        # Get tissue-specific parameters
-        params = hyperparams[tissue]
-        
+
         if args.load:
-            # Try to load existing network
-            networks[tissue], filtered_expr[tissue] = load_existing_network(tissue, network_dir)
-            
-            # If loading failed, offer to build a new network
-            if networks[tissue] is None or filtered_expr[tissue] is None:
-                print(f"Failed to load existing network for {tissue}")
-                user_input = input(f"Would you like to build a new network for {tissue}? (y/n): ")
-                
-                if user_input.lower() == 'y':
-                    print(f"Building new network for {tissue}...")
-                    networks[tissue], filtered_expr[tissue] = build_coexpression_network(
-                        expression_files[tissue],
-                        tissue, 
-                        network_dir,
-                        intensity_threshold=params["intensity_threshold"],
-                        variance_threshold_percentile=params["variance_threshold_percentile"],
-                        fdr_threshold=params["fdr_threshold"],
-                    )
-                else:
-                    print(f"Skipping {tissue}")
-                    continue
+            # Load network + expression
+            G, expr = load_existing_network(tissue, network_dir)
+
+            if G is None or expr is None:
+                print(f"  ✗ Failed to load network or expression for {tissue}")
+                continue
+
+            networks[tissue] = G
+            filtered_expr[tissue] = expr
+
+            # ---- Load clusters ----
+            cluster_file = f"{network_dir}/{tissue}_clusters.csv"
+            if os.path.exists(cluster_file):
+                print(f"Loading clusters from: {cluster_file}")
+                cluster_df = pd.read_csv(cluster_file)
+                clusters[tissue] = dict(zip(cluster_df['gene'], cluster_df['module']))
+                print(f"  ✓ Loaded {len(clusters[tissue])} cluster assignments")
+            else:
+                print(f"  ✗ Cluster file not found for {tissue}")
+                continue
+
         else:
+            # Build new network
             print(f"Building new network for {tissue}...")
-            networks[tissue], filtered_expr[tissue] = build_coexpression_network(
+            G, expr = build_coexpression_network(
                 expression_files[tissue],
-                tissue, 
+                tissue,
                 network_dir,
-                intensity_threshold=params["intensity_threshold"],
-                variance_threshold_percentile=params["variance_threshold_percentile"],
-                fdr_threshold=params["fdr_threshold"],
+                intensity_threshold=common_params["intensity_threshold"],
+                variance_threshold_percentile=common_params["variance_threshold_percentile"],
+                fdr_threshold=common_params["fdr_threshold"],
             )
-    
-    # Run Leiden clustering and visualization for each tissue
-    clusters = {}
-    for i, tissue in enumerate(tissues, 1):
-        if tissue not in networks or networks[tissue] is None:
-            print(f"Skipping {tissue}: No network available")
-            continue
-        
-        print(f"\nRunning Leiden clustering for {tissue} with resolution {params['leiden_resolution']}...")
-        clusters[tissue] = run_leiden_clustering(
-            networks[tissue], 
-            resolution_parameter=params["leiden_resolution"]
-        )
-        
-        # Read metadata if available
-        meta = None
-        if tissue in meta_files and os.path.exists(meta_files[tissue]):
-            meta = read_meta(meta_files[tissue])
-        if "character" not in meta.columns:
-            meta["character"] = meta["rej_status"]
-            
-        # Create directory for this tissue
-        os.makedirs(f"../../results/{tissue}", exist_ok=True)
-        
-        # Visualize modules
-        if meta is not None:
-            visualize_modules(filtered_expr[tissue], clusters[tissue], meta, tissue, module_dir)
-        else:
-            print(f"Warning: No metadata found for {tissue}, skipping visualize_modules")
-            
-    # Save network and cluster data for module_comparison.py
-    for tissue in networks:
-        if networks[tissue] is not None and tissue in clusters:
-            # Save cluster assignments
+
+            networks[tissue] = G
+            filtered_expr[tissue] = expr
+
+            # Run Leiden
+            print(f"Running Leiden clustering for {tissue}...")
+            clusters[tissue] = run_leiden_clustering(
+                G,
+                resolution_parameter=common_params["leiden_resolution"]
+            )
+
+            # Save clusters
             cluster_df = pd.DataFrame({
                 'gene': list(clusters[tissue].keys()),
                 'module': list(clusters[tissue].values())
             })
             cluster_df.to_csv(f"{network_dir}/{tissue}_clusters.csv", index=False)
+            print(f"  ✓ Saved cluster assignments")
+
+        # ---- Visualization ----
+        meta = None
+        if tissue in meta_files and os.path.exists(meta_files[tissue]):
+            meta = read_meta(meta_files[tissue])
+
+        if meta is not None:
+            if "character" not in meta.columns and "rej_status" in meta.columns:
+                meta["character"] = meta["rej_status"]
+
+            visualize_modules(
+                filtered_expr[tissue],
+                clusters[tissue],
+                meta,
+                tissue,
+                args.module_dir
+            )
+        else:
+            print(f"Warning: No metadata found for {tissue}")
 
     print("\nNetwork analysis complete!")
+
 
 if __name__ == "__main__":
     main()
