@@ -8,8 +8,7 @@ from statsmodels.stats.multitest import multipletests
 import pickle
 
 def build_coexpression_network(expression_file, tissue, network_dir, intensity_threshold=0, variance_threshold_percentile=75,
-                              correlation_threshold_percentile=93, fdr_threshold=0.05, 
-                              min_correlation=0.65):
+                              correlation_threshold_percentile=93, fdr_threshold=0.05):
     save_dir = f"{network_dir}/network_meta_{tissue}"
     os.makedirs(save_dir, exist_ok=True)
     
@@ -82,6 +81,7 @@ def build_coexpression_network(expression_file, tissue, network_dir, intensity_t
             pvalues.append(p_value)
     
     print("Performing FDR correction...")
+    min_correlation = 0.65
     if len(pvalues) > 0:
         rejected, pvals_corrected, _, _ = multipletests(pvalues, alpha=fdr_threshold, method='fdr_bh')
         
@@ -90,18 +90,7 @@ def build_coexpression_network(expression_file, tissue, network_dir, intensity_t
         significant_correlations = [correlations[i] for i in range(len(correlations)) if 
                     rejected[i] and correlations[i] >= min_correlation]
         
-        print(f"Found {len(significant_pairs)} significant correlations with r ≥ {min_correlation}")
-        
-        plt.figure(figsize=(10, 6))
-        plt.hist(significant_correlations, bins=50)
-        plt.title(f"Distribution of Significant Correlations (r ≥ {min_correlation})")
-        plt.xlabel("Correlation Coefficient")
-        plt.ylabel("Count")
-        plt.savefig(f"{save_dir}/significant_correlations_histogram.png", dpi=300)
-        plt.close()
-        
         if len(significant_correlations) > 0:
-            print(f"Selecting top {100-correlation_threshold_percentile}% of significant correlations...")
             threshold = np.percentile(significant_correlations, correlation_threshold_percentile)
             
             plt.figure(figsize=(10, 6))
@@ -138,9 +127,7 @@ def build_coexpression_network(expression_file, tissue, network_dir, intensity_t
                 f.write(f"Number of connections (edges): {edge_count}\n")
                 f.write(f"Mean intensity threshold: {intensity_threshold}\n")
                 f.write(f"Variance threshold ({variance_threshold_percentile}th percentile): {variance_threshold}\n")
-                f.write(f"Minimum correlation threshold: {min_correlation}\n")
                 f.write(f"FDR threshold: {fdr_threshold}\n")
-                f.write(f"Correlation percentile threshold: {correlation_threshold_percentile}\n")
                 f.write(f"Final correlation threshold: {threshold}\n")
                 
                 f.write("\nNetwork Metrics:\n")

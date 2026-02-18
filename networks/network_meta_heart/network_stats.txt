@@ -2,9 +2,7 @@ Number of genes (nodes): 916
 Number of connections (edges): 11642
 Mean intensity threshold: 3.0
 Variance threshold (75th percentile): 0.08618747316444826
-Minimum correlation threshold: 0.65
 FDR threshold: 0.01
-Correlation percentile threshold: 93
 Final correlation threshold: 0.8156300615900663
 
 Network Metrics:
