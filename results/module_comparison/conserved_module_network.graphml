@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d6" for="edge" attr.name="p_value" attr.type="float" />
+  <key id="d5" for="edge" attr.name="jaccard" attr.type="double" />
+  <key id="d4" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d3" for="node" attr.name="color" attr.type="string" />
+  <key id="d2" for="node" attr.name="group" attr.type="string" />
+  <key id="d1" for="node" attr.name="module_id" attr.type="string" />
+  <key id="d0" for="node" attr.name="tissue" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="liver:0">
+      <data key="d0">liver</data>
+      <data key="d1">0</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="kidney:1">
+      <data key="d0">kidney</data>
+      <data key="d1">1</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <node id="kidney:2">
+      <data key="d0">kidney</data>
+      <data key="d1">2</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <node id="heart:0">
+      <data key="d0">heart</data>
+      <data key="d1">0</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="heart:1">
+      <data key="d0">heart</data>
+      <data key="d1">1</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="heart:2">
+      <data key="d0">heart</data>
+      <data key="d1">2</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="liver:1">
+      <data key="d0">liver</data>
+      <data key="d1">1</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="liver:5">
+      <data key="d0">liver</data>
+      <data key="d1">5</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="heart:4">
+      <data key="d0">heart</data>
+      <data key="d1">4</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="kidney:3">
+      <data key="d0">kidney</data>
+      <data key="d1">3</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <node id="liver:6">
+      <data key="d0">liver</data>
+      <data key="d1">6</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="kidney:4">
+      <data key="d0">kidney</data>
+      <data key="d1">4</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <node id="liver:2">
+      <data key="d0">liver</data>
+      <data key="d1">2</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="heart:3">
+      <data key="d0">heart</data>
+      <data key="d1">3</data>
+      <data key="d2">conserved_group_1</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="liver:3">
+      <data key="d0">liver</data>
+      <data key="d1">3</data>
+      <data key="d2">conserved_group_2</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="kidney:7">
+      <data key="d0">kidney</data>
+      <data key="d1">7</data>
+      <data key="d2">conserved_group_2</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <node id="heart:11">
+      <data key="d0">heart</data>
+      <data key="d1">11</data>
+      <data key="d2">conserved_group_2</data>
+      <data key="d3">#4daf4a</data>
+    </node>
+    <node id="liver:4">
+      <data key="d0">liver</data>
+      <data key="d1">4</data>
+      <data key="d2">conserved_group_3</data>
+      <data key="d3">#e41a1c</data>
+    </node>
+    <node id="kidney:0">
+      <data key="d0">kidney</data>
+      <data key="d1">0</data>
+      <data key="d2">conserved_group_3</data>
+      <data key="d3">#377eb8</data>
+    </node>
+    <edge source="liver:0" target="kidney:1">
+      <data key="d4">91</data>
+      <data key="d5">0.33090909090909093</data>
+      <data key="d6">2.289873475936751e-48</data>
+    </edge>
+    <edge source="liver:0" target="kidney:2">
+      <data key="d4">21</data>
+      <data key="d5">0.14</data>
+      <data key="d6">0.0011231405391698812</data>
+    </edge>
+    <edge source="liver:0" target="heart:0">
+      <data key="d4">53</data>
+      <data key="d5">0.2774869109947644</data>
+      <data key="d6">2.2772239961806633e-21</data>
+    </edge>
+    <edge source="liver:0" target="heart:1">
+      <data key="d4">50</data>
+      <data key="d5">0.33333333333333337</data>
+      <data key="d6">6.150842991728435e-32</data>
+    </edge>
+    <edge source="liver:0" target="heart:2">
+      <data key="d4">13</data>
+      <data key="d5">0.08666666666666666</data>
+      <data key="d6">0.02933283141423713</data>
+    </edge>
+    <edge source="kidney:1" target="liver:1">
+      <data key="d4">45</data>
+      <data key="d5">0.16363636363636364</data>
+      <data key="d6">2.1688735107811743e-10</data>
+    </edge>
+    <edge source="kidney:1" target="heart:0">
+      <data key="d4">91</data>
+      <data key="d5">0.33090909090909093</data>
+      <data key="d6">1.4366891179025814e-36</data>
+    </edge>
+    <edge source="kidney:1" target="heart:1">
+      <data key="d4">39</data>
+      <data key="d5">0.14181818181818182</data>
+      <data key="d6">1.9722546845246572e-10</data>
+    </edge>
+    <edge source="kidney:1" target="heart:2">
+      <data key="d4">26</data>
+      <data key="d5">0.09454545454545454</data>
+      <data key="d6">0.0005751018840886335</data>
+    </edge>
+    <edge source="kidney:2" target="liver:5">
+      <data key="d4">42</data>
+      <data key="d5">0.28</data>
+      <data key="d6">8.995675050250716e-40</data>
+    </edge>
+    <edge source="kidney:2" target="heart:1">
+      <data key="d4">38</data>
+      <data key="d5">0.2533333333333333</data>
+      <data key="d6">7.576211557759344e-19</data>
+    </edge>
+    <edge source="kidney:2" target="heart:4">
+      <data key="d4">66</data>
+      <data key="d5">0.44</data>
+      <data key="d6">4.323200626518563e-66</data>
+    </edge>
+    <edge source="heart:0" target="liver:1">
+      <data key="d4">43</data>
+      <data key="d5">0.22513089005235604</data>
+      <data key="d6">5.950836543256099e-15</data>
+    </edge>
+    <edge source="heart:0" target="kidney:3">
+      <data key="d4">16</data>
+      <data key="d5">0.08376963350785341</data>
+      <data key="d6">0.035389691645789915</data>
+    </edge>
+    <edge source="heart:2" target="liver:6">
+      <data key="d4">42</data>
+      <data key="d5">0.3925233644859813</data>
+      <data key="d6">1.1496005344231485e-47</data>
+    </edge>
+    <edge source="heart:2" target="kidney:4">
+      <data key="d4">44</data>
+      <data key="d5">0.4112149532710281</data>
+      <data key="d6">7.543072061898051e-51</data>
+    </edge>
+    <edge source="liver:1" target="kidney:3">
+      <data key="d4">21</data>
+      <data key="d5">0.15217391304347827</data>
+      <data key="d6">5.953207285371499e-06</data>
+    </edge>
+    <edge source="liver:5" target="heart:4">
+      <data key="d4">43</data>
+      <data key="d5">0.5180722891566265</data>
+      <data key="d6">7.688639350194601e-55</data>
+    </edge>
+    <edge source="kidney:3" target="liver:2">
+      <data key="d4">14</data>
+      <data key="d5">0.12280701754385966</data>
+      <data key="d6">0.0017557674109115642</data>
+    </edge>
+    <edge source="kidney:3" target="heart:3">
+      <data key="d4">14</data>
+      <data key="d5">0.12280701754385966</data>
+      <data key="d6">9.337799778846438e-05</data>
+    </edge>
+    <edge source="liver:6" target="kidney:4">
+      <data key="d4">36</data>
+      <data key="d5">0.6545454545454545</data>
+      <data key="d6">4.1422167677945945e-50</data>
+    </edge>
+    <edge source="liver:2" target="heart:3">
+      <data key="d4">14</data>
+      <data key="d5">0.125</data>
+      <data key="d6">8.064467670181743e-05</data>
+    </edge>
+    <edge source="liver:3" target="kidney:7">
+      <data key="d4">22</data>
+      <data key="d5">0.24444444444444444</data>
+      <data key="d6">1.2270585761577782e-30</data>
+    </edge>
+    <edge source="liver:3" target="heart:11">
+      <data key="d4">11</data>
+      <data key="d5">0.12222222222222222</data>
+      <data key="d6">5.952626458676883e-16</data>
+    </edge>
+    <edge source="liver:4" target="kidney:0">
+      <data key="d4">23</data>
+      <data key="d5">0.04554455445544554</data>
+      <data key="d6">0.011063394941022108</data>
+    </edge>
+  </graph>
+</graphml>

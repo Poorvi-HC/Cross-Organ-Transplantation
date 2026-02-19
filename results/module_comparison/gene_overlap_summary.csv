@@ -1,0 +1,5 @@
+Tissue1,Tissue2,Genes1,Genes2,Overlap,Overlap%_of_1,Overlap%_of_2
+kidney,liver,1329,871,406,30.5%,46.6%
+heart,liver,916,871,368,40.2%,42.3%
+heart,kidney,916,1329,434,47.4%,32.7%
+All,,,,280,,
