@@ -1,4 +1,4 @@
 Group_ID,Modules,Tissues,Num_Tissues,Num_Modules,Num_Genes
-conserved_group_1,"liver:0, kidney:1, kidney:2, heart:0, heart:1, heart:2, liver:1, liver:5, heart:4, kidney:3, liver:6, kidney:4, liver:2, heart:3","heart, kidney, liver",3,14,452
-conserved_group_2,"liver:3, kidney:7, heart:11","heart, kidney, liver",3,3,24
-conserved_group_3,"liver:4, kidney:0","kidney, liver",2,2,23
+conserved_group_1,"liver:0, kidney:1, kidney:2, heart:0, heart:1, heart:2, liver:1, liver:5, heart:4, kidney:3, liver:6, kidney:4, liver:2, heart:3","heart, liver, kidney",3,14,452
+conserved_group_2,"liver:3, kidney:7, heart:11","heart, liver, kidney",3,3,24
+conserved_group_3,"liver:4, kidney:0","liver, kidney",2,2,23

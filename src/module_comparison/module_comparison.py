@@ -268,6 +268,9 @@ class ModuleComparison:
                         fold = k / expected if expected > 0 else np.inf
 
                         results.append({
+                            "tissue1": t1,
+                            "tissue2": t2,
+                            "tissue3": t3,
                             "module1": m1,
                             "module2": m2,
                             "module3": m3,
